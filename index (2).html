@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI for Wireless Network Intrusion Detection</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: #1f2937;
+      background: #f8fafc;
+      line-height: 1.6;
+    }
+    header {
+      background: #1e3a5f;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 8px; font-size: 2rem; }
+    header p { margin: 0; opacity: 0.85; }
+    nav {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: center;
+      padding: 12px;
+    }
+    nav a { margin: 0 12px; color: #1e3a5f; text-decoration: none; font-weight: 600; }
+    main { max-width: 900px; margin: 0 auto; padding: 20px; }
+    section {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 24px;
+      margin: 20px 0;
+    }
+    h2 { margin-top: 0; color: #1e3a5f; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #e5e7eb; padding: 10px; text-align: left; vertical-align: top; }
+    th { background: #eef2f7; }
+    .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+    .box { background: #eef2f7; border-radius: 8px; padding: 10px 14px; font-weight: 600; }
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+    .stat { background: #eef2f7; border-radius: 8px; padding: 10px 14px; }
+    .stat b { display: block; font-size: 1.3rem; }
+    button {
+      font-size: 1rem; font-weight: 600; padding: 10px 20px;
+      border: none; border-radius: 8px; cursor: pointer; color: white;
+    }
+    #normal { background: #16a34a; }
+    #attack { background: #dc2626; }
+    #next { background: #1e3a5f; display: none; margin-top: 12px; }
+    #result { margin-top: 16px; font-weight: 500; }
+    footer { text-align: center; color: #6b7280; font-size: 0.9rem; padding: 20px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>AI for Wireless Network Intrusion Detection</h1>
+    <p>Emily Prasad · EE382 Project · Fall 2026</p>
+  </header>
+
+  <nav>
+    <a href="#intro">Overview</a>
+    <a href="#attacks">Attacks</a>
+    <a href="#methods">AI Methods</a>
+    <a href="#demo">Demo</a>
+    <a href="#conclusion">Conclusion</a>
+  </nav>
+
+  <main>
+    <section id="intro">
+      <h2>What Is Wireless Intrusion Detection?</h2>
+      <p>Wireless networks send data through the air, so anyone within range can listen in or transmit. That makes Wi-Fi easier to attack than wired networks.</p>
+      <p>An <b>intrusion detection system (IDS)</b> monitors network traffic and flags suspicious activity. The goal is to catch attacks early, before they disrupt users or steal data. AI helps by learning what normal traffic looks like and recognizing attack patterns automatically.</p>
+    </section>
+
+    <section id="attacks">
+      <h2>Common Wireless Attacks</h2>
+      <table>
+        <tr><th>Attack</th><th>What it does</th><th>Warning sign</th></tr>
+        <tr><td>Deauthentication</td><td>Sends fake "disconnect" messages that kick users off the network</td><td>Many deauth frames per second</td></tr>
+        <tr><td>Evil twin</td><td>A fake access point copies a real network's name to trick users into connecting</td><td>Two access points with the same name</td></tr>
+        <tr><td>Jamming</td><td>Floods the radio channel with noise so no one can communicate</td><td>Very high noise level</td></tr>
+        <tr><td>Flooding / DoS</td><td>Overwhelms the access point with requests until it can't respond</td><td>Huge spike in packets and devices</td></tr>
+      </table>
+    </section>
+
+    <section id="methods">
+      <h2>How AI Detects Attacks</h2>
+      <div class="flow">
+        <span class="box">Capture traffic</span> →
+        <span class="box">Extract features</span> →
+        <span class="box">Classify with model</span> →
+        <span class="box">Normal or Attack</span>
+      </div>
+      <br>
+      <table>
+        <tr><th></th><th>Rule-based</th><th>Machine learning</th><th>Deep learning</th></tr>
+        <tr><td><b>How it works</b></td><td>Flags traffic that crosses fixed thresholds</td><td>Learns from labeled traffic features</td><td>Learns patterns in traffic over time</td></tr>
+        <tr><td><b>Example</b></td><td>"Alert if more than 50 deauth frames/sec"</td><td>Random forest, SVM</td><td>LSTM, CNN, autoencoder</td></tr>
+        <tr><td><b>Strengths</b></td><td>Simple, fast, easy to explain</td><td>More accurate, uses many features together</td><td>Can catch subtle or new attacks</td></tr>
+        <tr><td><b>Weaknesses</b></td><td>Misses new attacks</td><td>Needs labeled data</td><td>Needs lots of data, hard to explain</td></tr>
+      </table>
+    </section>
+
+    <section id="demo">
+      <h2>Demo: Spot the Attack</h2>
+      <p>You're the detector. Look at the traffic and decide if it's normal or an attack.</p>
+      <h3 id="title"></h3>
+      <div class="stats" id="stats"></div>
+      <button id="normal">Normal</button>
+      <button id="attack">Attack</button>
+      <div id="result"></div>
+      <button id="next">Next</button>
+    </section>
+
+    <section id="conclusion">
+      <h2>Conclusion</h2>
+      <ul>
+        <li>Each wireless attack changes measurable traffic features, which AI models can learn to recognize.</li>
+        <li>Rule-based methods are simple but miss attacks that stay under their thresholds.</li>
+        <li>Machine learning and deep learning are more accurate but need training data and are harder to explain.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>Demo values are illustrative examples.</footer>
+
+  <script>
+    const scenarios = [
+      { title: "Scenario 1: Home network",
+        stats: { "Packets/sec": 180, "Deauth frames/sec": 0, "Access points with this name": 1, "Noise level": "-95 dBm" },
+        attack: false, answer: "Normal. Every value is in the usual range." },
+      { title: "Scenario 2: Office network",
+        stats: { "Packets/sec": 1200, "Deauth frames/sec": 85, "Access points with this name": 1, "Noise level": "-93 dBm" },
+        attack: true, answer: "Attack (deauthentication). 85 deauth frames per second is far above normal, which is close to zero." },
+      { title: "Scenario 3: Airport Wi-Fi",
+        stats: { "Packets/sec": 650, "Deauth frames/sec": 4, "Access points with this name": 2, "Noise level": "-92 dBm" },
+        attack: true, answer: "Attack (evil twin). Two access points are using the same network name." },
+      { title: "Scenario 4: Library",
+        stats: { "Packets/sec": 40, "Deauth frames/sec": 0, "Access points with this name": 1, "Noise level": "-42 dBm" },
+        attack: true, answer: "Attack (jamming). The noise level is extremely high, normally around -95 dBm." },
+    ];
+
+    let i = 0;
+    function show() {
+      const s = scenarios[i];
+      document.getElementById("title").textContent = s.title;
+      document.getElementById("stats").innerHTML = Object.entries(s.stats)
+        .map(([k, v]) => `<div class="stat">${k}<b>${v}</b></div>`).join("");
+      document.getElementById("result").textContent = "";
+      document.getElementById("normal").disabled = false;
+      document.getElementById("attack").disabled = false;
+      document.getElementById("next").style.display = "none";
+    }
+    function guess(saidAttack) {
+      const s = scenarios[i];
+      const right = saidAttack === s.attack;
+      document.getElementById("result").textContent = (right ? "Correct! " : "Not quite. ") + s.answer;
+      document.getElementById("normal").disabled = true;
+      document.getElementById("attack").disabled = true;
+      if (i < scenarios.length - 1) document.getElementById("next").style.display = "inline-block";
+    }
+    document.getElementById("normal").onclick = () => guess(false);
+    document.getElementById("attack").onclick = () => guess(true);
+    document.getElementById("next").onclick = () => { i++; show(); };
+    show();
+  </script>
+</body>
+</html>
